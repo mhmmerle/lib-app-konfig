@@ -1,4 +1,4 @@
-package com.adcubum.appconfig
+package com.adcubum.appkonfig
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter

@@ -1,4 +1,4 @@
-package com.adcubum.appconfig
+package com.adcubum.appkonfig
 
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
