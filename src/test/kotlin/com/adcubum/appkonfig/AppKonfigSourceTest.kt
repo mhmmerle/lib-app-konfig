@@ -54,7 +54,7 @@ class AppConfigSourceTest {
 }
 
 class AppConfigFileSourceTest {
-    var testfile : File? = null
+    var testfile: File? = null
 
     @BeforeEach
     internal fun setUp() {
@@ -134,30 +134,29 @@ class AppConfigFileSourceTest {
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun setEnvironmentVariable(name: String, value: String) {
-    try {
-        val processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment")
-        val theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment")
-        theEnvironmentField.isAccessible = true
-        val env = theEnvironmentField[null] as MutableMap<String, String>
-        env.putAll(mapOf(name to value))
-        val theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment")
-        theCaseInsensitiveEnvironmentField.isAccessible = true
-        val cienv = theCaseInsensitiveEnvironmentField.get(null) as MutableMap<String, String>
-        cienv.putAll(mapOf(name to value))
-    } catch (e : NoSuchFieldException) {
-        val classes = Collections::class.java.declaredClasses
-        val env = System.getenv()
-        for(clazz in classes) {
-            if("java.util.Collections\$UnmodifiableMap" == clazz.getName()) {
+private fun setEnvironmentVariable(name: String, value: String) = try {
+    putToEnvironmentField("theEnvironment", name, value)
+    putToEnvironmentField("theCaseInsensitiveEnvironment", name, value)
+} catch (e: NoSuchFieldException) {
+    addToUnmodifieableEnvironmentField(name, value)
+}
+
+private fun putToEnvironmentField(fieldName: String, name: String, value: String) {
+    val processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment")
+    val theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField(fieldName)
+    theCaseInsensitiveEnvironmentField.isAccessible = true
+    val cienv = theCaseInsensitiveEnvironmentField.get(null) as MutableMap<String, String>
+    cienv.putAll(mapOf(name to value))
+}
+
+private fun addToUnmodifieableEnvironmentField(name: String, value: String) {
+    Collections::class.java.declaredClasses
+            .filter { clazz -> clazz.name == "java.util.Collections\$UnmodifiableMap" }
+            .forEach { clazz ->
                 val field = clazz.getDeclaredField("m")
                 field.isAccessible = true
-                val obj = field.get(env)
-                val map = obj as MutableMap<String, String>
+                val map = field.get(System.getenv()) as MutableMap<String, String>
                 map.clear()
                 map.putAll(mapOf(name to value))
             }
-        }
-    }
-
 }
