@@ -6,11 +6,12 @@ import com.adcubum.appkonfig.RequiredParameterNotSet
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.io.File
 
 class AppKonfigTest {
 
     @Test
-    fun shouldReturnParameter() {
+    fun shouldReadStringParameter() {
         //prepare
         data class ConfigClass(val property: String)
 
@@ -26,12 +27,27 @@ class AppKonfigTest {
     }
 
     @Test
+    fun shouldReadFileParameter() {
+        //prepare
+        data class ConfigClass(val property: File)
+
+        val appConfig  = AppKonfig().withSource(
+                TestConfigSource(mapOf("property" to "value"))
+        )
+
+        //when
+        val result : ConfigClass = appConfig.get()
+
+        //then
+        assertThat(result.property).isEqualTo(File("value"))
+    }
+
+    @Test
     fun shouldFallbackToNullIfNullableNotSet() {
         //prepare
         data class ConfigClass(val property: String?)
 
-        val appConfig  = AppKonfig().withSource(TestConfigSource()
-        )
+        val appConfig  = AppKonfig().withSource(TestConfigSource())
 
         //when
         val result : ConfigClass = appConfig.get()
