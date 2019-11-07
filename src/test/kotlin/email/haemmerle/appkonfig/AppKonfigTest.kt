@@ -1,8 +1,8 @@
 package com.adcubum.appconfig
 
-import com.adcubum.appkonfig.AppKonfig
-import com.adcubum.appkonfig.AppKonfigSource
-import com.adcubum.appkonfig.RequiredParameterNotSet
+import email.haemmerle.appkonfig.AppKonfig
+import email.haemmerle.appkonfig.AppKonfigSource
+import email.haemmerle.appkonfig.RequiredParameterNotSet
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

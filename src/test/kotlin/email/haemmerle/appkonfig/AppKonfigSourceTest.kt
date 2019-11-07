@@ -1,8 +1,8 @@
 package com.adcubum.appconfig
 
-import com.adcubum.appkonfig.AppConfigEnvironmentVariableSource
-import com.adcubum.appkonfig.AppConfigJsonFileSource
-import com.adcubum.appkonfig.AppConfigSystemPropertySource
+import email.haemmerle.appkonfig.AppConfigEnvironmentVariableSource
+import email.haemmerle.appkonfig.AppConfigJsonFileSource
+import email.haemmerle.appkonfig.AppConfigSystemPropertySource
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

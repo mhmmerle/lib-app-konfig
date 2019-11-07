@@ -1,9 +1,8 @@
-pluginManagement {
-    repositories {
-        maven {
-            setUrl("http://artifact.devres.internal.adcubum.com/artifactory/adcubum-repo/")
-        }
+rootProject.name = "lib-app-konfig"
+
+pluginManagement{
+    repositories{
+        gradlePluginPortal()
+        maven(url = "https://dl.bintray.com/mhmmerle/snapshots")
     }
 }
-
-rootProject.name = "app-konfig"

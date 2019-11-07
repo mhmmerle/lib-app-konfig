@@ -1,4 +1,4 @@
-package com.adcubum.appkonfig
+package email.haemmerle.appkonfig
 
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon

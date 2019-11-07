@@ -1,26 +1,26 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id ("org.jetbrains.kotlin.jvm").version("1.3.20")
-    id ("com.adcubum.tool.versioning-plugin").version("1.0.1")
-    id ("com.adcubum.gradle.canopus-gradle-publish").version("0.0.2")
+    id("email.haemmerle.baseplugin").version("0.0.5")
+    kotlin("jvm") version "1.3.50"
 }
 
-group = "com.adcubum.library"
+group = "email.haemmerle.appkonfig"
+description = "RESTful HTTP Client Library"
 
-repositories {
-    mavenLocal()
-    maven("http://artifact.devres.internal.adcubum.com/artifactory/adcubum-repo/")
+buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
 }
 
-adcubumpublish {
-    mavenReleasePublishUrl = "http://artifact.devres.internal.adcubum.com/artifactory/adcubum-library-releases/"
-    mavenSnapshotPublishUrl = "http://artifact.devres.internal.adcubum.com/artifactory/adcubum-library-snapshots/"
+`email-haemmerle-base`{
+    username = "mhmmerle"
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-        }
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }
 
@@ -33,10 +33,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.1")
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
